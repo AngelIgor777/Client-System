@@ -1,6 +1,9 @@
 package com.test.clientservice.controller;
 
+import com.test.clientservice.dto.request.ClientRequestDto;
+import com.test.clientservice.dto.response.ClientResponseDto;
 import com.test.clientservice.entity.Client;
+import com.test.clientservice.mapper.ClientMapper;
 import com.test.clientservice.service.ClientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -14,17 +17,18 @@ public class ClientController {
     private final ClientService clientService;
 
     @PostMapping
-    public Client addClient(@RequestBody Client client) {
-        return clientService.addClient(client);
+    public ClientResponseDto addClient(@RequestBody ClientRequestDto clientDto) {
+        Client client = clientService.addClient(ClientMapper.INSTANCE.toEntity(clientDto));
+        return ClientMapper.INSTANCE.toDto(client);
     }
 
     @GetMapping
-    public Page<Client> getAllClients(Pageable pageable) {
-        return clientService.getAllClients(pageable);
+    public Page<ClientResponseDto> getAllClients(Pageable pageable) {
+        return clientService.getAllClients(pageable).map(ClientMapper.INSTANCE::toDto);
     }
 
     @GetMapping("/{id}")
-    public Client getClientById(@PathVariable Long id) {
-        return clientService.getClientById(id);
+    public ClientResponseDto getClientById(@PathVariable Long id) {
+        return ClientMapper.INSTANCE.toDto(clientService.getClientById(id));
     }
 }

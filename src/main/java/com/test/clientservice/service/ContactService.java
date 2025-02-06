@@ -2,6 +2,7 @@ package com.test.clientservice.service;
 
 import com.test.clientservice.entity.Contact;
 import com.test.clientservice.repository.ContactRepository;
+import com.test.clientservice.validation.ContactValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,10 +12,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ContactService {
     private final ContactRepository contactRepository;
+    private final ContactValidator contactValidator;
 
-    public Contact addContact(Contact contact) {
-        return contactRepository.save(contact);
-    }
 
     public Page<Contact> getContactsByClientId(Long clientId, Pageable pageable) {
         return contactRepository.findByClientId(clientId, pageable);
