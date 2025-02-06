@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 public class ClientController {
     private final ClientService clientService;
 
+
     @PostMapping
     public ClientResponseDto addClient(@RequestBody ClientRequestDto clientDto) {
         Client client = clientService.addClient(ClientMapper.INSTANCE.toEntity(clientDto));
